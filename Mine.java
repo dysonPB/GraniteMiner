@@ -20,6 +20,7 @@ public class Mine extends Strategy implements Runnable {
 	public void run() {
 		SceneObject GraniteRock = SceneEntities.getNearest(cons.GRANITEROCK_ID);
 		SceneObject Well = SceneEntities.getNearest(cons.WELL_ID);
+		WidgetChild Empty = Inventory.getItem(1831).getWidgetChild();
 
 		if (Inventory.getItem(cons.WATERSKIN_ID) != null) {
 			if (cons.miningArea.contains(Players.getLocal().getLocation())) {
@@ -28,60 +29,54 @@ public class Mine extends Strategy implements Runnable {
 						if (!Players.getLocal().isMoving()) {
 							if (Players.getLocal().getAnimation() == -1) {
 								GraniteRock.interact("Mine");
-								Time.sleep(1000);
+								Time.sleep(1000, 1100);
 							}
 						}
-					} else {
-						if (cons.banklodArea.contains(Players.getLocal()
-								.getLocation())) {
-							Walking.newTilePath(cons.pathtowater).traverse();
-							WidgetChild Empty = Inventory.getItem(1831)
-									.getWidgetChild();
-							if (Inventory.getItem(1831) != null)
-								Empty.interact("Use");
-							Time.sleep(1000);
-							if (Well != null && Well.isOnScreen()) {
-								Well.interact("Use");
-								Time.sleep(3000, 3500);
-							}
-
-						} else {
-							WidgetChild lodeTele = Widgets.get(1092, 45);
-
-							if (Tabs.getCurrent() != Tabs.MAGIC) {
-								Tabs.MAGIC.open();
-							}
-							lodeTele.click(true);
-							{
-								Time.sleep(1000, 1200);
-								WidgetChild tele = Widgets.get(1092, 45);
-								tele.interact("Teleport");
-							}
-						}
-					}
+					} else
+						Camera.turnTo(GraniteRock);
 				}
-
-				else if (cons.miningArea.contains(Players.getLocal()
-						.getLocation())) {
-					Camera.turnTo(GraniteRock);
+			} else {
+				if (cons.mininglodArea.contains(Players.getLocal())) {
+					Walking.newTilePath(cons.pathtomining).traverse();
+					Time.sleep(500, 700);
 				} else {
-					if (cons.mininglodArea.contains(Players.getLocal())) {
-						Walking.newTilePath(cons.pathtomining).traverse();
-						Time.sleep(500, 700);
-					} else {
-						WidgetChild lodeTele = Widgets.get(1092, 7);
+					WidgetChild lodeTele = Widgets.get(1092, 7);
 
-						if (Tabs.getCurrent() != Tabs.MAGIC) {
-							Tabs.MAGIC.open();
-						}
-						lodeTele.click(true);
-						Time.sleep(1000, 1200);
-						WidgetChild tele = Widgets.get(1092, 7);
-						tele.interact("Teleport");
+					if (Tabs.getCurrent() != Tabs.MAGIC) {
+						Tabs.MAGIC.open();
 					}
-
+					lodeTele.click(true);
+					Time.sleep(1000, 1200);
+					WidgetChild tele = Widgets.get(1092, 7);
+					tele.interact("Teleport");
 				}
 			}
+		} else {
+			if (cons.banklodArea.contains(Players.getLocal().getLocation())) {
+				Walking.newTilePath(cons.pathtowater).traverse();
+				if (Inventory.getItem(1831) != null) {
+					Empty.interact("Use");
+					Time.sleep(300, 450);
+					if (Well != null && Well.isOnScreen()) {
+						Well.interact("Use");
+						Time.sleep(3000, 3500);
+					} else
+						Camera.turnTo(Well);
+				}
+			} else {
+				WidgetChild lodeTele = Widgets.get(1092, 45);
+
+				if (Tabs.getCurrent() != Tabs.MAGIC) {
+					Tabs.MAGIC.open();
+				}
+				lodeTele.click(true);
+				{
+					Time.sleep(1000, 1200);
+					WidgetChild tele = Widgets.get(1092, 45);
+					tele.interact("Teleport");
+				}
+			}
+
 		}
 
 	}
