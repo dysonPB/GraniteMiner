@@ -6,7 +6,7 @@ import org.powerbot.game.api.ActiveScript;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.bot.event.listener.PaintListener;
 
-@Manifest(authors = { "dyson" }, name = "dGraniteMiner", description = "Mines Granite", version = 1.0, website = "powerbot.org/community/yourstupidassthreadhere")
+@Manifest(authors = { "dyson" }, name = "dGraniteMiner", description = "Mines Granite", version = 1.0, website = "powerbot.org/community/addingsoon")
 public class mining extends ActiveScript implements PaintListener {
 
 	@Override
